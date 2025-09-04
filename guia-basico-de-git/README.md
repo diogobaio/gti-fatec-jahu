@@ -1,4 +1,4 @@
-# Guia Básico de Git e GitHub no ambiente Windows 🪟
+# Guia Básico de Git e GitHub no ambiente Windows
 
 Este é um guia simples para começar a usar **Git** e **GitHub**, até a etapa de envio (`push`), atualização (`pull`) e clonagem (`clone`) de arquivos e seus respectivas pastas.
 
