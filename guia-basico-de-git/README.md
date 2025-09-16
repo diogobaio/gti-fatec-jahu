@@ -4,9 +4,9 @@ Este é um guia simples para começar a usar **Git** e **GitHub**, até a etapa 
 
 ## 📌 Pré-requisitos
 
-* Git instalado em seu computador → [Download](https://git-scm.com/downloads)
-* Conta no GitHub
-* Editor de código recomendado: [VS Code](https://code.visualstudio.com/)
+* Git instalado em seu computador; [Download do Git](https://git-scm.com/downloads)
+* Conta no GitHub;
+* Editor de código. [Download do VS Code](https://code.visualstudio.com/)
 
 ---
 
@@ -15,7 +15,7 @@ Este é um guia simples para começar a usar **Git** e **GitHub**, até a etapa 
 Após instalar o Git, abra o Git Bash configure seu nome e e-mail (apenas na primeira vez):
 
 ```bash
-git config --global user.name "seu nome"
+git config --global user.name "seunome"
 git config --global user.email "seuemail@example.com"
 ```
 
@@ -105,8 +105,8 @@ Isso criará uma cópia completa do repositório em uma nova pasta local.
 
 ## 💡 Dicas úteis no VS Code
 
-* `code .` → abre a pasta atual no **Visual Studio Code**
-* `explorer .` → abre a pasta atual no **Explorador de Arquivos** do sistema
+* `code .` abre a pasta atual no **Visual Studio Code**.
+* `explorer .` abre a pasta atual no **Explorador de Arquivos** do sistema.
 
 Esses comandos ajudam a navegar rapidamente no projeto sem precisar abrir manualmente.
 
@@ -116,9 +116,9 @@ Esses comandos ajudam a navegar rapidamente no projeto sem precisar abrir manual
 
 Com esses comandos você já pode:
 
-* Criar e gerenciar versões do seu projeto
-* Enviar para o GitHub (`push`)
-* Atualizar com alterações do repositório remoto (`pull`)
-* Baixar repositórios existentes (`clone`)
+* Criar e gerenciar versões do seu projeto;
+* Enviar para o GitHub (`push`);
+* Atualizar com alterações do repositório remoto (`pull`);
+* Baixar repositórios existentes (`clone`).
 
 ---
