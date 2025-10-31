@@ -1,0 +1,3 @@
+Para iniciar o PHP no prompt de comando pelo VSCode:
+
+php -S localhost:8000

@@ -1,0 +1,25 @@
+/* Reset e configurações básicas */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f0f4f8;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Título do formulário */
+.custom-title {
+  color: #424344;
+  text-shadow: 1px 1px 2px #ccc;
+  font-weight: 600;
+}
+
+/* Título do cartão */
+.card-text-custom {
+  color: #d68a26;
+}
