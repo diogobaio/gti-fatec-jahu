@@ -1,0 +1,21 @@
+Criar uma pasta para o projeto e rodar no cms:
+
+# inicia o composer:
+composer init
+
+# preencher os dados solicitados
+
+# alterar o arquivo composer para:
+ 	"psr-4" {
+	"App\\": "app/"
+	}
+
+# criar uma pasta public com um index.php dentro e pastas e arquivos css, js, img
+
+# iniciar o servidor do PHP
+php -S localhost:8000 -t public
+
+# quando abre o projeto em um novo pc
+composer install
+
+# se der erro em rota (404)
