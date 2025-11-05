@@ -1,0 +1,30 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+.navbar {
+    background-color: #0e7d7b !important;
+}
+
+.footer {
+    background-color: #0e7d7b;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.login-card {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+}

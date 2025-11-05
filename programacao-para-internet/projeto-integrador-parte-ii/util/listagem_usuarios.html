@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuprePet - Listagem de Usuários</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Usuários
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="listagem_usuarios.html">Listagem de Usuários</a></li>
+                            <li><a class="dropdown-item" href="cadastro_usuarios.html">Cadastro de Usuários</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Produtos
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="listagem_produtos.html">Listagem de Produtos</a></li>
+                            <li><a class="dropdown-item" href="cadastro_produtos.html">Cadastro de Produtos</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="ms-auto d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Procurar">
+                    <a href="login.html" class="btn btn-dark">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content" style="margin-top: 70px; margin-bottom: 70px;">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Listagem de Usuários</h2>
+                <a href="cadastro_usuarios.html" class="btn btn-success">Adicionar</a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>CPF</th>
+                            <th>Tipo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>João Silva</td>
+                            <td>joao.silva@example.com</td>
+                            <td>123.456.789-00</td>
+                            <td>Admin</td>
+                            <td>
+                                <a href="cadastro.html" class="btn btn-warning btn-sm">Editar</a>
+                                <button class="btn btn-danger btn-sm">Excluir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Maria Santos</td>
+                            <td>maria.santos@example.com</td>
+                            <td>987.654.321-00</td>
+                            <td>Funcionário</td>
+                            <td>
+                                <a href="cadastro.html" class="btn btn-warning btn-sm">Editar</a>
+                                <button class="btn btn-danger btn-sm">Excluir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pedro Oliveira</td>
+                            <td>pedro.oliveira@example.com</td>
+                            <td>456.789.123-00</td>
+                            <td>Cliente</td>
+                            <td>
+                                <a href="cadastro.html" class="btn btn-warning btn-sm">Editar</a>
+                                <button class="btn btn-danger btn-sm">Excluir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ana Costa</td>
+                            <td>ana.costa@example.com</td>
+                            <td>321.654.987-00</td>
+                            <td>Cliente</td>
+                            <td>
+                                <a href="cadastro.html" class="btn btn-warning btn-sm">Editar</a>
+                                <button class="btn btn-danger btn-sm">Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">Projeto desenvolvido por: Diogo Baio</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
