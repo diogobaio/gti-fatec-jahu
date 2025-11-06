@@ -25,30 +25,69 @@ img {
 	box-sizing: border-box;
 }
 
+
 /*Superinfo*/
 
 .superinfo-bg {
-	background: #0e7c7b;
-	color: white;
+  background: #0e7c7b;
+  color: #fff;
+  font-size: 0.95rem;
+  padding: 10px 0;
 }
 
 .superinfo {
-	max-width: 960px;
-	margin: 0 auto;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	flex-wrap: wrap;
-	padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.superinfo p, .superinfo a{
-	margin: 0 10px 10px 10px;
+.superinfo > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .superinfo a {
-	color: white;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
+
+.superinfo a:hover {
+  color: #9fd3ff;
+}
+
+.superinfo i {
+  margin-right: 8px;
+  color: #ffffff;
+}
+.superinfo p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .superinfo {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .superinfo > div {
+    align-items: center;
+  }
+
+  .superinfo i {
+    margin-right: 6px;
+  }
+}
+
 
 /*Menu*/
 
@@ -115,7 +154,7 @@ img {
 }
 
 .sobre-info {
-	flex: 2 1 300px;
+	flex: 1 1 300px;
 	margin: 0 10px;
 	order: 1;
 }
@@ -315,7 +354,7 @@ img {
 	border-color: #2980b9;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
 	.planos {
 		padding-left: 10px;
 		padding-right: 10px;
@@ -441,7 +480,7 @@ img {
 	background: #0e7c7b;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 	.newsletter-form button {
 		font-size: 1.5em;
 	}
