@@ -34,6 +34,7 @@
 	</header>
 	
 	<h1 class="introducao">Novos valores e<br>Propriedades de CSS</h1>
+	<h2><?= $lenda ?></h2>
 	
 	<section class="sobre" id="sobre">
 		<div class="sobre-info">

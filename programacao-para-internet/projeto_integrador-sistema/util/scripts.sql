@@ -1,2 +1,27 @@
+<?php
 
-INSERT INTO usuarios (id_usuario, nome, cpf, data_nascimento, celular, rua, numero, complemento, bairro, cidade, cep, estado, email, tipo, senha, created_at, updated_at, deleted_at) VALUES (NULL, 'Ronan Adriel Zenatti', '355.936.478-79', '1988-02-25', '(14) 98157-5657', 'Rua dos Lavradores', '302', NULL, 'Vila Nossa Senhora Aparecida', 'Boracéia', '17.270-032', 'SP', 'ronan.zenatti@fatec.sp.gov.br', 'Administrador', 'lqwqwoboqrg woeiufgbqwufgqwgfqweuhqwuiçñ', current_timestamp(), current_timestamp(), NULL);
+namespace App\Core;
+
+use PDO;
+use PDOException;
+
+class Database {
+    public static function conectar() {
+        $host = '127.0.0.1';
+        $porta = '3307';
+        $banco = 'suprepet';
+        $usuario = 'root';
+        $senha = 'm1a3kr9a';
+        
+        $dsn = "mysql:host=$host;port=$porta;dbname=$banco;charset=utf8";
+        
+        try {
+            return new PDO($dsn, $usuario, $senha, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ]);
+        } catch (PDOException $e) {
+            die("Erro na conexão: " . $e->getMessage());
+        }
+    }
+}

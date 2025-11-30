@@ -32,7 +32,8 @@ unset($_SESSION['erros']); ?>
     </ol>
 </nav>
 
-<form action="<?= $rota ?>" method="POST">
+<!-- Form -->
+<form action="/usuarios/salvar" method="POST"></form>
     <div class="row g-4">
         <!-- Informações Pessoais -->
         <div class="col-lg-6">

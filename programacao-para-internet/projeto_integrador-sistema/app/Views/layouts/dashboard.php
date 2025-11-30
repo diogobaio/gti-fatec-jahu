@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><?= $tittle ?></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Usuários
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="listagem_usuarios.html">Listagem de Usuários</a></li>
+                            <li><a class="dropdown-item" href="cadastro_usuarios.html">Cadastro de Usuários</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Produtos
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="listagem_produtos.html">Listagem de Produtos</a></li>
+                            <li><a class="dropdown-item" href="cadastro_produtos.html">Cadastro de Produtos</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="ms-auto d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Procurar">
+                    <a href="login.html" class="btn btn-dark">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content" style="margin-top: 56px;">
+        <div> class="content">
+            <?= $content ?>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

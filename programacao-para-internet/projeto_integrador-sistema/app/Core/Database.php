@@ -12,10 +12,10 @@ class Database
     public static function conectar()
     {
         $host = 'localhost'; // Endereço do servidor de BD
-        $porta = '3306'; // Porta do servidor de BD
-        $banco = 'projeto_vendas'; // Nome do banco de dados
+        $porta = '3307'; // Porta do servidor de BD
+        $banco = 'suprepet'; // Nome do banco de dados
         $usuario = 'root'; // Usuário padrão do XAMPP
-        $senha = ''; // Senha padrão do XAMPP (vazia)
+        $senha = 'm1a3kr9a'; // Senha padrão do XAMPP (vazia)
 
         // Cria a string de conexão com o banco de dados
         $dsn = "mysql:host=$host;port=$porta;dbname=$banco;charset=utf8mb4";
