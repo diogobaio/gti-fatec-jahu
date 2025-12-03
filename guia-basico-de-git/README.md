@@ -71,7 +71,7 @@ git push -u origin main
 
 ## 🔄 Atualizar o repositório
 
-Se fizer mudanças em arquivos:
+Para enviar alterações da pasta de trabalho para o servidor remoto:
 
 ```bash
 git add .
@@ -79,7 +79,7 @@ git commit -m "Atualização feita"
 git push
 ```
 
-Se quiser baixar alterações do GitHub:
+Para receber alterações do servidor remoto para a pasta de trabalho:
 
 ```bash
 git pull
