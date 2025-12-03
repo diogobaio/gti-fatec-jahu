@@ -10,7 +10,7 @@ class UsuarioController
     {
         $lista_usuarios = Usuario::buscarTodos();
 
-        render("usuarios/lista_usuarios.php", [
+        render("usuarios/listagem_usuarios.php", [
             'title'    => "Lista de Usuários",
             'usuarios' => $lista_usuarios
         ]);
