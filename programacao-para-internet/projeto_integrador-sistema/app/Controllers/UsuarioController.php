@@ -1,64 +1,201 @@
-<?php 
+<?php
+
 namespace App\Controllers;
 
 use App\Models\Usuario;
+use App\Models\Auth;
 
 class UsuarioController
 {
-    // Busca os usuários e chama a tela de listar
-    public function listar()
-    {
-        $lista_usuarios = Usuario::buscarTodos();
 
-        render("usuarios/listagem_usuarios.php", [
-            'title'    => "Lista de Usuários",
-            'usuarios' => $lista_usuarios
+    // Lista todos os usuários
+    public function index()
+    {
+        Auth::requerPermissao(['admin', 'funcionario']);
+
+        $usuarios = Usuario::all();
+
+        // Paginação
+        $itensPorPagina = 10;
+        $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+        $totalItens = count($usuarios);
+        $totalPaginas = ceil($totalItens / $itensPorPagina);
+
+        // Garante que a página está no intervalo válido
+        if ($paginaAtual < 1) $paginaAtual = 1;
+        if ($paginaAtual > $totalPaginas && $totalPaginas > 0) $paginaAtual = $totalPaginas;
+
+        $inicio = ($paginaAtual - 1) * $itensPorPagina;
+        $usuariosPagina = array_slice($usuarios, $inicio, $itensPorPagina);
+
+        render('usuarios/listagem.php', [
+            'title' => 'Listagem de Usuários - PetMais',
+            'usuarios' => $usuariosPagina,
+            'paginaAtual' => $paginaAtual,
+            'totalPaginas' => $totalPaginas,
+            'totalItens' => $totalItens
         ]);
     }
 
-    public function salvar()
+    // Exibe formulário de novo usuário
+    public function create()
     {
-        // 1. Limpa os dados, remove tudo que não for texto puro
-        $dados = [
-            'nome'            => filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS),
-            'nome_social'     => filter_input(INPUT_POST, 'nome_social', FILTER_SANITIZE_SPECIAL_CHARS),
-            'genero'          => filter_input(INPUT_POST, 'genero', FILTER_SANITIZE_SPECIAL_CHARS),
-            'cpf'             => filter_input(INPUT_POST, 'cpf', FILTER_SANITIZE_SPECIAL_CHARS),
-            'data_nascimento' => filter_input(INPUT_POST, 'data_nascimento', FILTER_SANITIZE_SPECIAL_CHARS),
-            'celular'         => filter_input(INPUT_POST, 'celular', FILTER_SANITIZE_SPECIAL_CHARS),
-            'rua'             => filter_input(INPUT_POST, 'rua', FILTER_SANITIZE_SPECIAL_CHARS),
-            'numero'          => filter_input(INPUT_POST, 'numero', FILTER_SANITIZE_SPECIAL_CHARS),
-            'complemento'     => filter_input(INPUT_POST, 'complemento', FILTER_SANITIZE_SPECIAL_CHARS),
-            'bairro'          => filter_input(INPUT_POST, 'bairro', FILTER_SANITIZE_SPECIAL_CHARS),
-            'cidade'          => filter_input(INPUT_POST, 'cidade', FILTER_SANITIZE_SPECIAL_CHARS),
-            'cep'             => filter_input(INPUT_POST, 'cep', FILTER_SANITIZE_SPECIAL_CHARS),
-            'estado'          => filter_input(INPUT_POST, 'estado', FILTER_SANITIZE_SPECIAL_CHARS),
-            'email'           => filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS),
-            'nivel_acesso'    => filter_input(INPUT_POST, 'nivel_acesso', FILTER_SANITIZE_SPECIAL_CHARS),
-            'senha'           => filter_input(INPUT_POST, 'senha', FILTER_DEFAULT),
-        ];
+        Auth::requerPermissao('admin');
+        render('usuarios/cadastro.php', ['title' => 'Novo Usuário - PetMais']);
+    }
 
-        // Cria a lista de erros
+    // Salva novo usuário
+    public function store()
+    {
+        Auth::requerPermissao('admin');
+
+        // Validações básicas
         $erros = [];
 
-        // Verifica se o nome está vazio
-        if (empty($dados['nome'])) {
-            $erros['nome'] = 'O campo NOME não pode ficar em branco';
-        } elseif (strlen($dados['nome']) < 4) {
-            $erros['nome'] = 'O campo NOME deve ter mais que 3 caracteres';
+        if (empty($_POST['nome'])) {
+            $erros[] = 'Nome é obrigatório';
         }
 
-        // Se não houver erros salva
-        if (empty($erros)) {
-            $id = Usuario::salvar($dados);
-            header('Location: /usuarios'); // comentar
-            exit;
-        } else {
-            // Certifique-se de ter chamado session_start() antes
+        if (empty($_POST['email'])) {
+            $erros[] = 'Email é obrigatório';
+        } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $erros[] = 'Email inválido';
+        } elseif (Usuario::findByEmail($_POST['email'])) {
+            $erros[] = 'Email já cadastrado';
+        }
+
+        if (empty($_POST['senha'])) {
+            $erros[] = 'Senha é obrigatória';
+        } elseif (strlen($_POST['senha']) < 6) {
+            $erros[] = 'Senha deve ter no mínimo 6 caracteres';
+        }
+
+        if (!empty($_POST['confirmarSenha']) && $_POST['senha'] !== $_POST['confirmarSenha']) {
+            $erros[] = 'As senhas não conferem';
+        }
+
+        if (!empty($erros)) {
             $_SESSION['erros'] = $erros;
-            $_SESSION['dados'] = $dados;
-            header('Location: /usuario/inserir'); // comentar
+            $_SESSION['dados_form'] = $_POST;
+            header('Location: /usuarios/novo');
             exit;
         }
+
+        if (Usuario::create($_POST)) {
+            $_SESSION['mensagem'] = 'Usuário cadastrado com sucesso!';
+            $_SESSION['tipo_mensagem'] = 'success';
+            header('Location: /usuarios');
+        } else {
+            $_SESSION['erros'] = ['Erro ao cadastrar usuário'];
+            $_SESSION['dados_form'] = $_POST;
+            header('Location: /usuarios/novo');
+        }
+        exit;
+    }
+
+    // Exibe formulário de edição
+    public function edit($id)
+    {
+        Auth::requerPermissao('admin');
+
+        $usuario = Usuario::find($id);
+
+        if (!$usuario) {
+            $_SESSION['mensagem'] = 'Usuário não encontrado';
+            $_SESSION['tipo_mensagem'] = 'danger';
+            header('Location: /usuarios');
+            exit;
+        }
+
+        render('usuarios/cadastro.php', [
+            'title' => 'Editar Usuário - PetMais',
+            'usuario' => $usuario
+        ]);
+    }
+
+    // Atualiza usuário existente
+    public function update($id)
+    {
+        Auth::requerPermissao('admin');
+
+        $usuario = Usuario::find($id);
+
+        if (!$usuario) {
+            $_SESSION['mensagem'] = 'Usuário não encontrado';
+            $_SESSION['tipo_mensagem'] = 'danger';
+            header('Location: /usuarios');
+            exit;
+        }
+
+        // Validações
+        $erros = [];
+
+        if (empty($_POST['nome'])) {
+            $erros[] = 'Nome é obrigatório';
+        }
+
+        if (empty($_POST['email'])) {
+            $erros[] = 'Email é obrigatório';
+        } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $erros[] = 'Email inválido';
+        } else {
+            $usuarioEmail = Usuario::findByEmail($_POST['email']);
+            if ($usuarioEmail && $usuarioEmail['id_usuario'] != $id) {
+                $erros[] = 'Email já cadastrado para outro usuário';
+            }
+        }
+
+        if (!empty($_POST['senha'])) {
+            if (strlen($_POST['senha']) < 6) {
+                $erros[] = 'Senha deve ter no mínimo 6 caracteres';
+            }
+            if (!empty($_POST['confirmarSenha']) && $_POST['senha'] !== $_POST['confirmarSenha']) {
+                $erros[] = 'As senhas não conferem';
+            }
+        }
+
+        if (!empty($erros)) {
+            $_SESSION['erros'] = $erros;
+            $_SESSION['dados_form'] = $_POST;
+            header("Location: /usuarios/{$id}/editar");
+            exit;
+        }
+
+        if (Usuario::update($id, $_POST)) {
+            $_SESSION['mensagem'] = 'Usuário atualizado com sucesso!';
+            $_SESSION['tipo_mensagem'] = 'success';
+            header('Location: /usuarios');
+        } else {
+            $_SESSION['erros'] = ['Erro ao atualizar usuário'];
+            $_SESSION['dados_form'] = $_POST;
+            header("Location: /usuarios/{$id}/editar");
+        }
+        exit;
+    }
+
+    // Exclui usuário (soft delete)
+    public function delete($id)
+    {
+        Auth::requerPermissao('admin');
+
+        $usuario = Usuario::find($id);
+
+        if (!$usuario) {
+            $_SESSION['mensagem'] = 'Usuário não encontrado';
+            $_SESSION['tipo_mensagem'] = 'danger';
+            header('Location: /usuarios');
+            exit;
+        }
+
+        if (Usuario::delete($id)) {
+            $_SESSION['mensagem'] = 'Usuário excluído com sucesso!';
+            $_SESSION['tipo_mensagem'] = 'success';
+        } else {
+            $_SESSION['mensagem'] = 'Erro ao excluir usuário';
+            $_SESSION['tipo_mensagem'] = 'danger';
+        }
+
+        header('Location: /usuarios');
+        exit;
     }
 }

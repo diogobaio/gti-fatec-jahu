@@ -1,6 +1,6 @@
-Criar uma pasta para o projeto e rodar no cmd:
+# Criar uma pasta para o projeto e rodar no cmd:
 
-# Inicia o composer:
+# Iniciar o composer:
     composer init
 
 # Preencher os dados solicitados
@@ -16,7 +16,7 @@ Criar uma pasta para o projeto e rodar no cmd:
     php -S localhost:8000 -t public
 
 
-## QUANDO ABRE O PROJETO EM UM NOVO PC
+## QUANDO ABRIR O PROJETO EM UM NOVO PC
     composer install
 
 ## SE DER ERRO DE ROTA (404)

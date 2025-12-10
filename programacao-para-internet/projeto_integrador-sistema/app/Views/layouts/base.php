@@ -1,145 +1,91 @@
+<?php
+
+use App\Models\Auth;
+
+// Verifica se o usuário está logado
+$usuarioLogado = Auth::getUsuarioLogado();
+$isLogado = Auth::isLogado();
+?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?></title>
-    <!-- Bootstrap 5.3 CSS -->
+    <title><?= $title ?? 'PetMais - Pet Shop' ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-    <!-- Barra de Navegação Superior -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/dashboard">
-                <i class="fas fa-book-open me-2"></i>LivroTech
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTop">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarTop">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Produtos
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/produtos/novo">Cadastrar Produto</a></li>
-                            <li><a class="dropdown-item" href="/produtos">Listar Produtos</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Vendas
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="registro-venda.html">Registrar Venda</a></li>
-                            <li><a class="dropdown-item" href="lista-vendas.html">Listar Vendas</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Usuários
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/usuarios/novo">Cadastrar Usuário</a></li>
-                            <li><a class="dropdown-item" href="/usuarios">Listar Usuários</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i> Admin
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Perfil</a></li>
-                            <li><a class="dropdown-item" href="configuracoes.html"><i class="fas fa-cog me-2"></i>Configurações</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Conteúdo Principal -->
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Barra Lateral -->
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="dashboard.html">
-                                <i class="fas fa-tachometer-alt me-2"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="lista-produtos.html">
-                                <i class="fas fa-book me-2"></i>
-                                Produtos
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="lista-vendas.html">
-                                <i class="fas fa-shopping-cart me-2"></i>
-                                Vendas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/usuarios">
-                                <i class="fas fa-users me-2"></i>
+    <?php if ($isLogado): ?>
+        <!-- Navbar para usuários logados -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/dashboard">Dashboard</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                 Usuários
                             </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/usuarios">Listagem de Usuários</a></li>
+                                <?php if (Auth::temPermissao('Administrador')): ?>
+                                    <li><a class="dropdown-item" href="/usuarios/novo">Cadastro de Usuários</a></li>
+                                <?php endif; ?>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="relatorios.html">
-                                <i class="fas fa-chart-bar me-2"></i>
-                                Relatórios
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Produtos
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contato-admin.html">
-                                <i class="fas fa-headset me-2"></i>
-                                Suporte
-                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/produtos">Listagem de Produtos</a></li>
+                                <?php if (Auth::temPermissao(['Administrador', 'Funcionário'])): ?>
+                                    <li><a class="dropdown-item" href="/produtos/novo">Cadastro de Produtos</a></li>
+                                <?php endif; ?>
+                            </ul>
                         </li>
                     </ul>
-                </div>
-            </nav>
-
-            <!-- Conteúdo da Página -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-
-                <?php
-                echo $content;
-                ?>
-                
-                <!-- Rodapé -->
-                <footer class="bg-white p-3 mt-4 text-center text-muted">
-                    <div>
-                        &copy; 2025 LivroTech. Todos os direitos reservados.
+                    <div class="d-flex align-items-center">
+                        <span class="text-white me-3">
+                            Olá, <?= htmlspecialchars($usuarioLogado['nome']) ?>
+                        </span>
+                        <form class="d-flex me-3">
+                            <input class="form-control search-input" type="search" placeholder="Procurar">
+                        </form>
+                        <a href="/logout" class="btn btn-sair">SAIR</a>
                     </div>
-                </footer>
-            </main>
-        </div>
-    </div>
+                </div>
+            </div>
+        </nav>
+    <?php endif; ?>
 
-    <!-- Bootstrap 5.3 JS -->
+    <!-- Conteúdo da página -->
+    <main>
+        <!-- Mensagens Flash -->
+        <?php if (isset($_SESSION['mensagem'])): ?>
+            <div class="container mt-3">
+                <div class="alert alert-<?= $_SESSION['tipo_mensagem'] ?> alert-dismissible fade show" role="alert">
+                    <?= $_SESSION['mensagem'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+            <?php unset($_SESSION['mensagem'], $_SESSION['tipo_mensagem']); ?>
+        <?php endif; ?>
+
+        <?= $content ?>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>PetMais - Elaborado por Diogo Baio</p>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

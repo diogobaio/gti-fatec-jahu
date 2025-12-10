@@ -1,55 +1,67 @@
 <?php
-// Não precisa iniciar a sessão, pois este arquivo vem pelo Index.php
+
 namespace App\Controllers;
 
-// Importa o Model para ser utilizado
 use App\Models\Auth;
 
 class AuthController
 {
 
-    public function login()
+    // Exibe a página de login
+    public function showLogin()
     {
-        $usuario = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $senha = $_POST['senha'];
-
-        $erros = [];
-        if (empty($usuario)) {
-            $erros[] = "O Campo de E-mail é Obrigatório!";
-        }
-        if (empty($senha)) {
-            $erros[] = "O Campo de Senha é Obrigatório!";
+        // Se já estiver logado, redireciona para o dashboard
+        if (Auth::isLogado()) {
+            header('Location: /dashboard');
+            exit;
         }
 
-        if (!empty($erros)) {
-            // Envia os erros para a página de cadastro
-            $_SESSION['erros'] = $erros;
-            // Envia os dados já informados para serem incluidos.
-            $_SESSION['dados'] = $usuario;
-            print_r($_SESSION);
-            exit();
-            // Retorna para a página de cadastro
-            header('Location: /entrar');
-        } else {
-            if (Auth::login($usuario, $senha)) {
-                header('Location: /dashboard');
-            } else {
-                $_SESSION['erros'] = ['Usuário e/ou Senha inválidos!'];
-                header('Location: /entrar');
-            }
-        }
+        render_sem_login('auth/login.php', ['title' => 'Login - PetMais']);
     }
 
+    // Processa o formulário de login
+    public function login()
+    {
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $senha = $_POST['senha'] ?? '';
+
+        // Valida os campos
+        $erros = [];
+        if (empty($email)) {
+            $erros[] = 'O e-mail é obrigatório';
+        }
+        if (empty($senha)) {
+            $erros[] = 'A senha é obrigatória';
+        }
+
+        if (empty($erros)) {
+            // Tenta fazer login
+            if (Auth::login($email, $senha)) {
+                // Login bem-sucedido, redireciona para o dashboard
+                $_SESSION['mensagem'] = 'Login realizado com sucesso!';
+                $_SESSION['tipo_mensagem'] = 'success';
+                header('Location: /dashboard');
+                exit;
+            } else {
+                $erros[] = 'E-mail ou senha incorretos';
+            }
+        }
+
+        // Se chegou aqui, houve erros
+        $_SESSION['erros'] = $erros;
+        $_SESSION['email'] = $email; // Para preencher o campo de e-mail
+
+        header('Location: /login');
+        exit;
+    }
+
+    // Faz logout do sistema
     public function logout()
     {
-        unset($_SESSION['usuario_id']);
-        unset($_SESSION['usuario_nome']);
-        unset($_SESSION['usuario_email']);
-        unset($_SESSION['usuario_tipo']);
-
-        session_destroy(); // Apaga completamente a sessão
-        session_start();
-
-        header('Location: /entrar');
+        Auth::logout();
+        $_SESSION['mensagem'] = 'Logout realizado com sucesso!';
+        $_SESSION['tipo_mensagem'] = 'success';
+        header('Location: /login');
+        exit;
     }
 }
